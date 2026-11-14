@@ -1,0 +1,29 @@
+{
+  "name": "apimend",
+  "version": "0.0.1",
+  "description": "Find the code an upstream API's breaking change affects, from two versions of its OpenAPI spec.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "apimend": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tests",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

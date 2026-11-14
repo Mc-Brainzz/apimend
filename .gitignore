@@ -1,0 +1,12 @@
+node_modules
+dist
+.env
+.env.*
+coverage
+*.log
+
+# Upstream specs are large and re-downloadable from the pinned refs in benchmark/cases.json
+benchmark/specs/
+
+# Third-party repos cloned for benchmarking (pinned commits in benchmark/cases.json)
+benchmark/repos/

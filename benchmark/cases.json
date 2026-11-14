@@ -1,0 +1,155 @@
+[
+  {
+    "id": "stripe-2022-11-15-paymentintent-charges",
+    "api": "Stripe",
+    "specRepo": "https://github.com/stripe/openapi",
+    "oldSpec": { "ref": "da4ef11c8691eb41e6b2a8d86c13343a973633e4", "url": "https://github.com/stripe/openapi/blob/da4ef11c8691eb41e6b2a8d86c13343a973633e4/openapi/spec3.json" },
+    "newSpec": { "ref": "90fbe90142a179784ad987a54b7b164beb4a4763", "url": "https://github.com/stripe/openapi/blob/90fbe90142a179784ad987a54b7b164beb4a4763/openapi/spec3.json" },
+    "breakingChanges": [
+      "schema PaymentIntent (webhook payloads and GET/POST /v1/payment_intents*) — property `charges` (list of Charge) removed (verified in spec; info.version 2022-08-01 -> 2022-11-15)",
+      "schema PaymentIntent — property `latest_charge` (charge id, expandable) added as the replacement (verified in spec)"
+    ],
+    "changeSource": "https://docs.stripe.com/upgrades",
+    "affected": [
+      {
+        "repo": "https://github.com/rebkwok/sunshine",
+        "language": "python",
+        "callsVia": "sdk",
+        "fixUrl": "https://github.com/rebkwok/sunshine/commit/a6993539d5c418f351533953fc3721405cc18033",
+        "beforeSha": "9446e13a21dd3d837f75c78be1445befadb9927e",
+        "hasTests": true,
+        "license": null
+      },
+      {
+        "repo": "https://github.com/antikkorps/scs-fa",
+        "language": "typescript",
+        "callsVia": "sdk",
+        "fixUrl": "https://github.com/antikkorps/scs-fa/commit/78e14484c832a9349d67c8aa3d00625a63ad1a0e",
+        "beforeSha": "434d010606a7ad87f03602d73620cda14cfce374",
+        "hasTests": true,
+        "license": null
+      }
+    ],
+    "confidence": "high",
+    "notes": "Spec diff verified by inspecting both spec3.json refs with jq. Fix commits are recent (2026) late adaptations. Both repos use the official Stripe SDK (python / node). In sunshine the fix also changes the retrieve call to expand latest_charge; in scs-fa the fix fetches the charge via latest_charge. License is null because GitHub reports none, not verified absent. Ref da4ef11 is the last spec3.json commit before the version bump; 90fbe90 is the first with 2022-11-15."
+  },
+  {
+    "id": "stripe-basil-usage-records-removed",
+    "api": "Stripe",
+    "specRepo": "https://github.com/stripe/openapi",
+    "oldSpec": { "ref": "5a411d0d1e527229cdb4d6633197ab8009899ce6", "url": "https://github.com/stripe/openapi/blob/5a411d0d1e527229cdb4d6633197ab8009899ce6/openapi/spec3.json" },
+    "newSpec": { "ref": "9fa5188b0933d46d2ac3c601d2d9c50904fb54de", "url": "https://github.com/stripe/openapi/blob/9fa5188b0933d46d2ac3c601d2d9c50904fb54de/openapi/spec3.json" },
+    "breakingChanges": [
+      "POST /v1/subscription_items/{subscription_item}/usage_records — endpoint removed (replaced by POST /v1/billing/meter_events); verified in spec, info.version 2025-02-24.acacia -> 2025-03-31.basil",
+      "GET /v1/subscription_items/{subscription_item}/usage_record_summaries — endpoint removed; verified in spec"
+    ],
+    "changeSource": "https://docs.stripe.com/changelog/basil",
+    "affected": [
+      {
+        "repo": "https://github.com/mattrickslauer/sonar",
+        "language": "typescript",
+        "callsVia": "http",
+        "fixUrl": "https://github.com/mattrickslauer/sonar/commit/cb6398ca043e5da35615c2bb5529e2031203e878",
+        "beforeSha": "bec5f94125f86335ad8986f9cbc670185cbb3054",
+        "hasTests": true,
+        "license": null
+      }
+    ],
+    "confidence": "high",
+    "notes": "Best HTTP-not-SDK case: infra/lambda/channel-meter-tick/index.js at the parent commit calls api.stripe.com /v1/subscription_items/{id}/usage_records via node:https; fix moves to /v1/billing/meter_events with a different payload shape and per-channel Stripe customers (larger than a pure rename; also touches infra/lib/sonar-stack.ts). Commit message says the account was on flexible billing, which rejects legacy usage records. Test suite is small (8 test files by path heuristic); the Lambda may not be covered. License not reported by GitHub."
+  },
+  {
+    "id": "stripe-basil-subscription-period-fields",
+    "api": "Stripe",
+    "specRepo": "https://github.com/stripe/openapi",
+    "oldSpec": { "ref": "5a411d0d1e527229cdb4d6633197ab8009899ce6", "url": "https://github.com/stripe/openapi/blob/5a411d0d1e527229cdb4d6633197ab8009899ce6/openapi/spec3.json" },
+    "newSpec": { "ref": "9fa5188b0933d46d2ac3c601d2d9c50904fb54de", "url": "https://github.com/stripe/openapi/blob/9fa5188b0933d46d2ac3c601d2d9c50904fb54de/openapi/spec3.json" },
+    "breakingChanges": [
+      "schema Subscription — property `current_period_end` removed (moved to subscription item); verified in spec",
+      "schema SubscriptionItem — property `current_period_end` added; verified in spec"
+    ],
+    "changeSource": "https://docs.stripe.com/changelog/basil",
+    "affected": [
+      {
+        "repo": "https://github.com/Harshr24/digital-heroes-platform",
+        "language": "typescript",
+        "callsVia": null,
+        "fixUrl": "https://github.com/Harshr24/digital-heroes-platform/commit/8de46c2f9fb9e42c19ea0a18448401f1484ec530",
+        "beforeSha": "56c3ae513b33277713fefa2cdb43bf35fc9c4b10",
+        "hasTests": true,
+        "license": null
+      },
+      {
+        "repo": "https://github.com/krwalker721-cmd/Quorum-app",
+        "language": "typescript",
+        "callsVia": "sdk",
+        "fixUrl": "https://github.com/krwalker721-cmd/Quorum-app/commit/8abe2a528466ccdf677fe53d5e51e7bee791a3b1",
+        "beforeSha": "0d78e67797a4d731e447cc3cfc2d7a7db0db493f",
+        "hasTests": true,
+        "license": null
+      }
+    ],
+    "confidence": "medium",
+    "notes": "Spec change verified; the repo-side fixes were identified from commit messages and file lists only, diffs not read in full. Harshr24 repo is tiny (single-file fix in src/lib/services/subscriptions.ts; callsVia not checked, hence null; 1 test file by path heuristic). Quorum-app fix reads both pre- and post-basil payload shapes in webhook handling (client pinned to 2024-06-20), so the human fix is a dual-shape reader, not a clean migration."
+  },
+  {
+    "id": "stripe-basil-invoice-subscription-moved",
+    "api": "Stripe",
+    "specRepo": "https://github.com/stripe/openapi",
+    "oldSpec": { "ref": "5a411d0d1e527229cdb4d6633197ab8009899ce6", "url": "https://github.com/stripe/openapi/blob/5a411d0d1e527229cdb4d6633197ab8009899ce6/openapi/spec3.json" },
+    "newSpec": { "ref": "9fa5188b0933d46d2ac3c601d2d9c50904fb54de", "url": "https://github.com/stripe/openapi/blob/9fa5188b0933d46d2ac3c601d2d9c50904fb54de/openapi/spec3.json" },
+    "breakingChanges": [
+      "schema Invoice — property `subscription` removed (now invoice.parent.subscription_details.subscription per the fix commit message); verified `subscription` absent in new spec",
+      "schema Invoice — properties `charge` and `payment_intent` removed; verified absent in new spec"
+    ],
+    "changeSource": "https://docs.stripe.com/changelog/basil",
+    "affected": [
+      {
+        "repo": "https://github.com/Alasdia/Xepay-SaaS",
+        "language": "javascript",
+        "callsVia": "sdk",
+        "fixUrl": "https://github.com/Alasdia/Xepay-SaaS/commit/4b0195fe8ba80a06ad72a91e0d807fb8dc65411c",
+        "beforeSha": "fdc83842351bb5fdc446993af3f1d86a41da3d01",
+        "hasTests": true,
+        "license": null
+      }
+    ],
+    "confidence": "medium",
+    "notes": "The fix commit touches only frontend/pages/spa/views/dashboard.js (frontend reads invoice.subscription from backend JSON); the commit message says the Python backend (routes/webhook/stripe.py) was fixed earlier, and the backend presumably uses the Stripe Python SDK (inferred, not verified). Mixed JS/Python repo, so the frontend fix alone is only part of the migration."
+  },
+  {
+    "id": "openai-assistants-v1-to-v2",
+    "api": "OpenAI",
+    "specRepo": "https://github.com/openai/openai-openapi",
+    "oldSpec": { "ref": "af97d0a6f1fcc5dcbb6e8135b3b8a7b8e22b7d0a", "url": "https://github.com/openai/openai-openapi/blob/af97d0a6f1fcc5dcbb6e8135b3b8a7b8e22b7d0a/openapi.yaml" },
+    "newSpec": { "ref": "d3f8430242c994bdd972dabdd10c2022a2f39152", "url": "https://github.com/openai/openai-openapi/blob/d3f8430242c994bdd972dabdd10c2022a2f39152/openapi.yaml" },
+    "breakingChanges": [
+      "GET/POST/DELETE /assistants/{assistant_id}/files and /assistants/{assistant_id}/files/{file_id} — endpoints removed (verified in spec; replaced by vector stores)",
+      "GET /threads/{thread_id}/messages/{message_id}/files — endpoint removed (verified in spec)",
+      "schema AssistantToolsRetrieval — removed, replaced by AssistantToolsFileSearch; new /vector_stores endpoints added (verified in spec)"
+    ],
+    "changeSource": "https://developers.openai.com/api/docs/assistants/migration",
+    "affected": [
+      {
+        "repo": "https://github.com/screwyforcepush/AIMM",
+        "language": "typescript",
+        "callsVia": "sdk",
+        "fixUrl": "https://github.com/screwyforcepush/AIMM/commit/ce0fd58ccaae4f6bb2f27e9719a749f856f88b46",
+        "beforeSha": "791155012df1413f19c86f6b9a0c6077b3d6950a",
+        "hasTests": false,
+        "license": null
+      },
+      {
+        "repo": "https://github.com/bernardsmq/whatsapp-lead-gen",
+        "language": "python",
+        "callsVia": "sdk",
+        "fixUrl": "https://github.com/bernardsmq/whatsapp-lead-gen/commit/cc08c91ef1f767ee0925af2ebaf1842f3b566dce",
+        "beforeSha": "6cfabfa830b41ba36da1dcdaff42e3381ffa48d8",
+        "hasTests": false,
+        "license": null
+      }
+    ],
+    "confidence": "medium",
+    "notes": "Spec break is solid, but the real-world fixes found only add the OpenAI-Beta: assistants=v2 header to SDK calls (a header requirement is not visible as a spec diff), so a spec-diff tool cannot derive these fixes from the spec alone. Neither repo has tests. Old ref is the first parent of merge d3f8430 (PR #230 Update Assistants); the PR-branch parent is 304a8399de21bf944b8535c9ab86a1cb69647c8b. The changelog URL is where the platform.openai.com docs path redirected (followed redirect, HTTP 200)."
+  }
+]
